@@ -40,6 +40,21 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
 
+    data_root = config.DATA_ROOT
+    required_splits = ["Train", "valid"]
+    missing_splits = [
+        split for split in required_splits if not (data_root / split).exists()
+    ]
+    if missing_splits:
+        missing = ", ".join(missing_splits)
+        message = (
+            "Veri dizini bulunamadı veya eksik: "
+            f"{data_root}. Eksik klasörler: {missing}. "
+            "Kaggle verisini indirip README'deki adımlarla "
+            "`data/processed/asd_faces/` altında Train/valid[/Test] klasörlerini oluşturun."
+        )
+        raise SystemExit(message)
+
     data.set_seed(args.seed)
     # Veri yükleyicilerindeki rastgelelikler için tek bir noktadan tohum veriyoruz.
     loaders = data.create_dataloaders(

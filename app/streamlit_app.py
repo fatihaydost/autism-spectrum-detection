@@ -112,12 +112,25 @@ uploaded_file = st.file_uploader(
     "Bir yüz görseli yükleyin", type=["jpg", "jpeg", "png"]
 )
 
-if uploaded_file is not None:
+detector_error: str | None = None
+try:
+    detector_instance = load_detector()
+except FileNotFoundError as exc:
+    detector_instance = None
+    detector_error = str(exc)
+
+if detector_error:
+    st.error(
+        "Model ağırlıkları bulunamadı. `artifacts/resnet18_autism_classifier.pth` dosyasını "
+        "ekleyin veya README'deki adımları izleyerek modeli eğitin."
+    )
+    st.stop()
+
+if uploaded_file is not None and detector_instance is not None:
     image = Image.open(uploaded_file).convert("RGB")
 
     with st.spinner("Model çalıştırılıyor..."):
-        detector = load_detector()
-        result = detector.predict(image)
+        result = detector_instance.predict(image)
 
     display_original = prepare_display_image(image, size=MAIN_DISPLAY_SIZE)
     raw_heatmap_img = result.heatmap.convert("RGB") if result.heatmap else None

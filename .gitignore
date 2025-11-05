@@ -1,0 +1,43 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.dylib
+*.egg-info/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+.env/
+
+# IDE / OS files
+.idea/
+.vscode/
+*.DS_Store
+Thumbs.db
+
+# Local datasets and outputs
+data/processed/
+data/raw_sources/
+data/archives/
+artifacts/*
+!artifacts/resnet18_autism_classifier.pth
+!artifacts/README.md
+
+# Model checkpoints & reports
+*.pth
+*.pt
+*.onnx
+!artifacts/resnet18_autism_classifier.pth
+data/reports/combined_dataset_duplicates_report.json
+
+# Streamlit & experiments
+logs/
+*.log

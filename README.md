@@ -45,6 +45,27 @@ Eğitim pipeline’ı `processed/asd_faces` dizinine ihtiyaç duyar. `.gitignore
 ### Veri Kaynağı
 - Ana veri seti: [Autism Spectrum Detection from Kaggle + Zenodo](https://www.kaggle.com/datasets/ronakp004/autism-spectrum-detection-from-kaggle-zenodo) (Ronak Patel). Ham klasörler `data/raw_sources/` altında referans amaçlı saklanır, temizlenmiş sürüm `data/processed/asd_faces/` dizinine yerleştirilmiştir.
 
+#### İndirme ve Yerleştirme Adımları
+1. Veri setini Kaggle üzerinden indirin (veya Kaggle CLI kullanıyorsanız):
+   ```bash
+   kaggle datasets download -d ronakp004/autism-spectrum-detection-from-kaggle-zenodo
+   ```
+2. İndirilen `.zip` dosyasını projenin kök dizinine açın.
+3. Aşağıdaki yapıdaki klasörleri oluşturun ve veri setindeki `Train/`, `valid/` ve varsa `Test/` dizinlerini birebir buraya taşıyın:
+   ```
+   data/
+   └── processed/
+       └── asd_faces/
+           ├── Train/
+           ├── valid/
+           └── Test/    # veri setinde mevcutsa
+   ```
+4. İsteğe bağlı olarak ham arşivi `data/raw_sources/` altında saklayabilirsiniz; `.gitignore` bu klasörü depodan hariç tutar.
+
+### Hazır Checkpoint
+- Depoya **`artifacts/resnet18_autism_classifier.pth`** dosyası dahil edilmiştir. Bu dosya doğrulama setinde %85.57 doğruluk elde eden en iyi modeli içerir ve Streamlit arayüzü varsayılan olarak bu ağırlığı yükler.
+- Eğer modeli yeniden eğitirseniz, aynı dosya üzerine yazılacaktır. Git geçmişine farklı bir versiyon eklemek isterseniz, mevcut dosyayı yedeklemeyi unutmayın.
+
 ## Model ve Eğitim
 - **Mimari:** ImageNet üzerinde önceden eğitilmiş ResNet-18 omurgası, son katmanda `dropout (p=0.3)` ve iki sınıflı linear sınıflandırıcı.
 - **Veri büyüklüğü:** `Train=2423`, `valid=97`, `Test=281` görsel (yalnızca .jpg/.png vb. RGB dosyalar).
@@ -68,7 +89,7 @@ Ek parametreler:
 - `--freeze-backbone` ile yalnızca sınıflandırıcı katmanını eğitebilirsiniz.
 - `--cpu` zorunlu CPU eğitimini etkinleştirir.
 
-Eğitim sürecinde en iyi doğrulama sonucu `artifacts/resnet18_autism_classifier.pth` dosyasına kaydedilir ve epoch bazlı istatistikler `artifacts/training_history.json` dosyasında tutulur.
+Eğitim sürecinde en iyi doğrulama sonucu `artifacts/resnet18_autism_classifier.pth` dosyasına kaydedilir ve epoch bazlı istatistikler `artifacts/training_history.json` dosyasında tutulur. Streamlit arayüzünün çalışabilmesi için bu ağırlık dosyasının mevcut olması gerekir; aksi hâlde uygulama gerekli bilgilendirmeyi gösterecektir.
 
 ## Streamlit Arayüzü
 Eğitilmiş modeli kullanarak görsel yüklemek ve Grad-CAM çıktısını görmek için:
@@ -80,3 +101,13 @@ Arayüz:
 - Yüklenen görseli ve model sonuçlarını tek ekranda sunar.
 - Sınıf olasılıklarını çubuk grafik ve tablo halinde gösterir.
 - Grad-CAM ısı haritası ve bindirilmiş (overlay) çıktıları sabit çözünürlükte sunar.
+
+> **Not:** İlk kez projeyi klonlayan kullanıcılar, `python -m venv .venv && .\.venv\Scripts\activate && pip install -r requirements.txt` komutlarıyla ortamı hazırlayıp doğrudan Streamlit arayüzünü çalıştırabilir; ek eğitim gerektirmez.
+
+## Yapılan İyileştirmeler
+- Veri artırma (augmentation) stratejileri genişletildi; farklı formatlardaki görseller desteklenir.
+- ResNet-18 sınıflandırıcı katmanına dropout eklendi.
+- CUDA üzerinde otomatik karma hassasiyet (AMP) eğitim desteği sağlandı.
+- Streamlit arayüzü modern kart tasarımı ve sabit çözünürlüklü görsellerle yeniden düzenlendi.
+- GitHub paylaşımı için `.gitignore` oluşturuldu ve depo dokümantasyonu güncellendi.
+- Tüm veri klasörleri `data/` altında toparlanarak proje kökü sadeleştirildi.
