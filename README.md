@@ -9,17 +9,36 @@ Bu proje, otizmli ve tipik gelişim gösteren çocukların yüz görsellerinden 
 - `requirements.txt`: Projenin Python bağımlılıkları.
 - `artifacts/`: Eğitim çıktıları ve modeller (git tarafından yok sayılır).
 
-## Kurulum
-1. Python 3.10+ sürümü kurulu olduğundan emin olun.
-2. Sanal ortam oluşturun ve etkinleştirin (Windows örneği):
+## Hızlı Başlangıç (Eğitim Yapmadan Çalıştırma)
+Bu adımlar, projeyi klonlayan birinin hazır modeli kullanarak Streamlit arayüzünü çalıştırmasına yeterlidir:
+
+1. **Projeyi klonlayın (ZIP indirmeyin)**  
+   ```bash
+   git clone https://github.com/fatihaydost/autism-spectrum-detection.git
+   cd autism-spectrum-detection
+   ```
+
+2. **Git LFS ile modeli indirin**  
+   ```bash
+   git lfs install
+   git lfs pull
+   ```
+   `artifacts/resnet18_autism_classifier.pth` dosyasının ~128 MB boyutuna sahip olduğunu doğrulayın; dosya birkaç bayt ise LFS başarılı olmamıştır.
+
+3. **Python ortamını hazırlayın** (örnek olarak Windows PowerShell):
    ```powershell
    python -m venv .venv
    .\.venv\Scripts\activate
-   ```
-3. Bağımlılıkları yükleyin:
-   ```bash
    pip install -r requirements.txt
    ```
+
+4. **Streamlit arayüzünü başlatın**  
+   ```bash
+   streamlit run app/streamlit_app.py
+   ```
+   Artık herhangi bir eğitim yapmadan modeli test edebilirsiniz. Dilerseniz örnek görselleri `Browse files` menüsüyle seçip sınıflandırmayı ve Grad-CAM çıktısını inceleyin.
+
+> Veri klasörünü yalnızca yeniden eğitim yapmak istiyorsanız hazırlamanız gerekir; inference (tahmin) için gerekli değildir.
 
 ## Veri Yerleşimi
 Tüm veri dosyaları `data/` klasöründe gruplanmıştır:
