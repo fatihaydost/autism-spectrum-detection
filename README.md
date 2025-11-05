@@ -65,6 +65,12 @@ Eğitim pipeline’ı `processed/asd_faces` dizinine ihtiyaç duyar. `.gitignore
 ### Hazır Checkpoint
 - Depoya **`artifacts/resnet18_autism_classifier.pth`** dosyası dahil edilmiştir. Bu dosya doğrulama setinde %85.57 doğruluk elde eden en iyi modeli içerir ve Streamlit arayüzü varsayılan olarak bu ağırlığı yükler.
 - Eğer modeli yeniden eğitirseniz, aynı dosya üzerine yazılacaktır. Git geçmişine farklı bir versiyon eklemek isterseniz, mevcut dosyayı yedeklemeyi unutmayın.
+> **Git LFS notu:** Depoyu klonladıktan sonra model ağırlığını indirebilmek için Git LFS kurulu olmalıdır. İlk kurulumda şu komutları çalıştırın:
+> ```bash
+> git lfs install
+> git lfs pull
+> ```
+> Bu adımlar `artifacts/resnet18_autism_classifier.pth` dosyasının gerçek içeriğini indirir.
 
 ## Model ve Eğitim
 - **Mimari:** ImageNet üzerinde önceden eğitilmiş ResNet-18 omurgası, son katmanda `dropout (p=0.3)` ve iki sınıflı linear sınıflandırıcı.

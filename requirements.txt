@@ -1,0 +1,10 @@
+torch>=2.4
+torchvision>=0.19
+pillow>=10.0
+numpy>=1.26
+pandas>=2.0
+scikit-learn>=1.4
+tqdm>=4.66
+streamlit>=1.37
+matplotlib>=3.8
+opencv-python>=4.10
