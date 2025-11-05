@@ -104,10 +104,3 @@ Arayüz:
 
 > **Not:** İlk kez projeyi klonlayan kullanıcılar, `python -m venv .venv && .\.venv\Scripts\activate && pip install -r requirements.txt` komutlarıyla ortamı hazırlayıp doğrudan Streamlit arayüzünü çalıştırabilir; ek eğitim gerektirmez.
 
-## Yapılan İyileştirmeler
-- Veri artırma (augmentation) stratejileri genişletildi; farklı formatlardaki görseller desteklenir.
-- ResNet-18 sınıflandırıcı katmanına dropout eklendi.
-- CUDA üzerinde otomatik karma hassasiyet (AMP) eğitim desteği sağlandı.
-- Streamlit arayüzü modern kart tasarımı ve sabit çözünürlüklü görsellerle yeniden düzenlendi.
-- GitHub paylaşımı için `.gitignore` oluşturuldu ve depo dokümantasyonu güncellendi.
-- Tüm veri klasörleri `data/` altında toparlanarak proje kökü sadeleştirildi.
